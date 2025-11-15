@@ -1,9 +1,9 @@
-# Zigzag scan of a matrix
-# Argument is a two-dimensional matrix of any size,
-# not strictly a square one.
-# Function returns a 1-by-(m*n) array,
-# where m and n are sizes of an input matrix,
-# consisting of its items scanned by a zigzag method.
+# Зигзагообразное сканирование матрицы
+# Аргументом является двумерная матрица любого размера,
+# не обязательно квадратная.
+# Функция возвращает массив размером 1 на (m*n),
+# где m и n - размеры входной матрицы,
+# состоящий из элементов, отсканированных зигзагообразным методом.
 
 import numpy as np
 
@@ -23,9 +23,9 @@ def zigzag(input):
     output = np.zeros((vmax * hmax))
 
     while (v < vmax) and (h < hmax):
-        if ((h + v) % 2) == 0:  # going up
+        if ((h + v) % 2) == 0:  # идем вверх
             if v == vmin:
-                output[i] = input[v, h]  # if we got to the first line
+                output[i] = input[v, h]  # если мы дошли до первой строки
 
                 if h == hmax:
                     v = v + 1
@@ -34,24 +34,24 @@ def zigzag(input):
 
                 i = i + 1
 
-            elif (h == hmax - 1) and (v < vmax):  # if we got to the last column
+            elif (h == hmax - 1) and (v < vmax):  # если мы дошли до последего столбца
                 output[i] = input[v, h]
                 v = v + 1
                 i = i + 1
 
-            elif (v > vmin) and (h < hmax - 1):  # all other cases
+            elif (v > vmin) and (h < hmax - 1):  # все остальные случаи
                 output[i] = input[v, h]
                 v = v - 1
                 h = h + 1
                 i = i + 1
 
-        else:  # going down
-            if (v == vmax - 1) and (h <= hmax - 1):  # if we got to the last line
+        else:  # идем вниз
+            if (v == vmax - 1) and (h <= hmax - 1):  # если мы дошли до последей строки
                 output[i] = input[v, h]
                 h = h + 1
                 i = i + 1
 
-            elif h == hmin:  # if we got to the first column
+            elif h == hmin:  # если мы дошли до первого столбца
                 output[i] = input[v, h]
 
                 if v == vmax - 1:
@@ -61,28 +61,28 @@ def zigzag(input):
 
                 i = i + 1
 
-            elif (v < vmax - 1) and (h > hmin):  # all other cases
+            elif (v < vmax - 1) and (h > hmin):  # все остальные случаи
                 output[i] = input[v, h]
                 v = v + 1
                 h = h - 1
                 i = i + 1
 
-        if (v == vmax - 1) and (h == hmax - 1):  # bottom right element
+        if (v == vmax - 1) and (h == hmax - 1):  # нижний правый элемент
             output[i] = input[v, h]
             break
 
     return output
 
 
-# Inverse zigzag scan of a matrix
-# Arguments are: a 1-by-m*n array,
-# where m & n are vertical & horizontal sizes of an output matrix.
-# Function returns a two-dimensional matrix of defined sizes,
-# consisting of input array items gathered by a zigzag method.
+# Обратное зигзагообразное сканирование матрицы
+# Аргументами являются: массив размером 1 на m*n,
+# где m и n - размеры выходной матрицы по вертикали и горизонтали.
+# Функция возвращает двумерную матрицу определенных размеров,
+# состоящую из элементов входного массива, собранных зигзагообразным методом.
 
 
 def inverse_zigzag(input, vmax, hmax):
-    # initializing the variables
+    # инициализация переменных
     h = 0
     v = 0
 
@@ -94,9 +94,9 @@ def inverse_zigzag(input, vmax, hmax):
     i = 0
 
     while (v < vmax) and (h < hmax):
-        if ((h + v) % 2) == 0:  # going up
-            if v == vmin:
-                output[v, h] = input[i]  # if we got to the first line
+        if ((h + v) % 2) == 0:  # идем вверх
+            if v == vmin:  # Если мы дошли до первой строки
+                output[v, h] = input[i]
 
                 if h == hmax:
                     v = v + 1
@@ -105,24 +105,24 @@ def inverse_zigzag(input, vmax, hmax):
 
                 i = i + 1
 
-            elif (h == hmax - 1) and (v < vmax):  # if we got to the last column
+            elif (h == hmax - 1) and (v < vmax):  # если мы дошли до последего столбца
                 output[v, h] = input[i]
                 v = v + 1
                 i = i + 1
 
-            elif (v > vmin) and (h < hmax - 1):  # all other cases
+            elif (v > vmin) and (h < hmax - 1):  # остальные случаи
                 output[v, h] = input[i]
                 v = v - 1
                 h = h + 1
                 i = i + 1
 
-        else:  # going down
-            if (v == vmax - 1) and (h <= hmax - 1):  # if we got to the last line
+        else:  # идем вниз
+            if (v == vmax - 1) and (h <= hmax - 1):  # если мы дошли до последей строки
                 output[v, h] = input[i]
                 h = h + 1
                 i = i + 1
 
-            elif h == hmin:  # if we got to the first column
+            elif h == hmin:  # если мы дошли до первого столбца
                 output[v, h] = input[i]
                 if v == vmax - 1:
                     h = h + 1
@@ -130,13 +130,13 @@ def inverse_zigzag(input, vmax, hmax):
                     v = v + 1
                 i = i + 1
 
-            elif (v < vmax - 1) and (h > hmin):  # all other cases
+            elif (v < vmax - 1) and (h > hmin):  # все остальные случаи
                 output[v, h] = input[i]
                 v = v + 1
                 h = h - 1
                 i = i + 1
 
-        if (v == vmax - 1) and (h == hmax - 1):  # bottom right element
+        if (v == vmax - 1) and (h == hmax - 1):  # нижний правый элемент
             output[v, h] = input[i]
             break
 

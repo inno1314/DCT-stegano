@@ -1,17 +1,14 @@
-# ====== External Libraries ======#
+# ------ External Libraries ------#
 import cv2
 import bitstring
 import numpy as np
 import zigzag as zz
 
-# ========== Source Files ========#
+# ---------- Source Files --------#
 import image_preparation as img
-import data_embedding as stego
+import utils as stego
 
 NUM_CHANNELS = 3
-COVER_IMAGE_FILEPATH = "./pepper.png"  # Путь к изображению-контейнеру (PNG)
-STEGO_IMAGE_FILEPATH = "./stego_pepper.png"  # Путь к изображению с сообщением
-SECRET_MESSAGE_STRING = "my secret data"  # Сообщение для вставки в изображение
 
 
 def embed_message(
@@ -27,12 +24,13 @@ def embed_message(
     # Корректируем размеры изображения, чтобы они были кратны 8
     # (Необходимо для работы DCT алгоритма)
     while height % 8:
-        height += 1  # Rows
+        height += 1  # Строки
     while width % 8:
-        width += 1  # Columns
+        width += 1  # Столбцы
     valid_dim = (width, height)
     padded_image = cv2.resize(raw_cover_image, valid_dim)
     cover_image_f32 = np.float32(padded_image)
+
     # Изображение переводится в цветовое пространство YCrCb (яркость и два цветовых канала)
     cover_image_YCC = img.YCC_Image(cv2.cvtColor(cover_image_f32, cv2.COLOR_BGR2YCrCb))
 

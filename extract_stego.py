@@ -5,7 +5,7 @@ import numpy as np
 import zigzag as zz
 
 # ---------- Source Files --------#
-import data_embedding as stego
+import utils as stego
 import image_preparation as img
 
 

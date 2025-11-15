@@ -1,12 +1,12 @@
 import sys
-from stego_algorithm import embed_message
-from extract_stego_image import read_embedded_message
+from embed_stego import embed_message
+from extract_stego import read_embedded_message
 
 
 def print_usage():
     print("Usage:")
-    print('  Embed:  python3 app.py embed input.jpg output.jpg "secret text"')
-    print("  Extract: python3 app.py extract stego.jpg")
+    print('  Embed:  python3 app.py embed input.jpeg output.jpeg "secret text"')
+    print("  Extract: python3 app.py extract stego.jpeg")
 
 
 def main_cli(argv):

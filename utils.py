@@ -1,8 +1,8 @@
 # ------ External Libraries ------#
-from typing import List
 import bitstring
-from bitstring.bitstream import BitStream
 import numpy as np
+from typing import List
+from bitstring.bitstream import BitStream
 from numpy.typing import NDArray
 
 
@@ -12,7 +12,8 @@ def extract_encoded_data_from_DCT(
     """Эта функция извлекает закодированные данные из блоков DCT-коэффициентов"""
     extracted_data = ""  # Пустая строка для записи извлеченных битов
     for current_dct_block in dct_blocks:
-        # Пропускается 1-ый коэффициент, т.к. он содержит информацию об интенсивности блока
+        # Пропускается 1-ый коэффициент, т.к. он содержит служебную информацию
+        # (DCT-компонента)
         for coeff_index in range(1, len(current_dct_block)):
             curr_coeff = np.int32(current_dct_block[coeff_index])
             if curr_coeff > 1:  # Если коэффициент больше 1:

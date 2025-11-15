@@ -1,18 +1,14 @@
-"""
-Author: Mason Edgar
-ECE 529 - Algorithm Project
-Image Steganography
-"""
-
 # ------ External Libraries ------#
 import numpy as np
-# ================================#
+from typing import List
+from cv2.typing import MatLike
+from numpy.typing import NDArray
 
 # Numpy Macros
 HORIZ_AXIS = 1
 VERT_AXIS = 0
 
-# Standard quantization table as defined by JPEG
+# Стандартная таблица квантования, определенная в формате JPEG
 JPEG_STD_LUM_QUANT_TABLE = np.asarray(
     [
         [16, 11, 10, 16, 24, 40, 51, 61],
@@ -28,23 +24,27 @@ JPEG_STD_LUM_QUANT_TABLE = np.asarray(
 )
 
 
-# Image container class
-class YCC_Image(object):
-    def __init__(self, cover_image):
+class YCC_Image:
+    """Класс изображения "контейнера" (cover image)"""
+
+    def __init__(self, cover_image: MatLike):
+        """Разбивает изображение на три канала: Y (яркость) и два цветоразностных канала.
+        Каждый канал разбивается на блоки размером 8х8 пикселей"""
         self.height, self.width = cover_image.shape[:2]
         self.channels = [
+            # Первые два индекса означают, что мы берем все строки и все столбцы
+            # Третий индекс указывает, какой канал выбрать
             split_image_into_8x8_blocks(cover_image[:, :, 0]),
             split_image_into_8x8_blocks(cover_image[:, :, 1]),
             split_image_into_8x8_blocks(cover_image[:, :, 2]),
         ]
 
 
-def stitch_8x8_blocks_back_together(Nc, block_segments):
+def stitch_8x8_blocks_back_together(Nc: int, block_segments: List[MatLike]) -> NDArray:
     """
-    Take the array of 8x8 pixel blocks and put them together by row so the numpy.block() method can sitch it back together
-    :param Nc: Number of pixels in the image (length-wise)
-    :param block_segments:
-    :return:
+    Принимает массив из блоков размером 8x8 пикселей и соединяет их по строкам,
+    чтобы метод numpy.block() мог снова соединить их вместе.
+    :param Nc: Количество пикселей в изображении (по длине)
     """
     image_rows = []
     temp = []
@@ -59,7 +59,8 @@ def stitch_8x8_blocks_back_together(Nc, block_segments):
     return np.block(image_rows)
 
 
-def split_image_into_8x8_blocks(image):
+def split_image_into_8x8_blocks(image: MatLike) -> List[NDArray]:
+    """Разбивает изображение на блоки 8х8 пикселей."""
     blocks = []
     for vert_slice in np.vsplit(image, int(image.shape[0] / 8)):
         for horiz_slice in np.hsplit(vert_slice, int(image.shape[1] / 8)):
